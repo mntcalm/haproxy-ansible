@@ -1,0 +1,19 @@
+haproxy_frontends:
+  - name: u64_out
+    address: 207.182.151.251
+    bind_port: 591
+    backend: onlinelabs_b
+
+  - name: onlinelabs_l
+    address: 127.0.0.64
+    bind_port: 25
+    backend: onlinelabs_b
+
+haproxy_backends:
+  - name: onlinelabs_b
+    servers:
+      - { name: postfix2, address: 207.182.151.250, port: 10024, enabled: true }
+      - { name: postfix3, address: 207.182.151.251, port: 10024, enabled: true }
+      - { name: postfix4, address: 207.182.151.252, port: 10024, enabled: false }
+      - { name: postfix5, address: 207.182.151.253, port: 10024, enabled: true }
+      - { name: postfix6, address: 207.182.151.254, port: 10024, enabled: true }

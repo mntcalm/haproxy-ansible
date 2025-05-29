@@ -1,0 +1,32 @@
+---
+# tasks file for haproxy
+- name: Установка HAProxy (Debian)
+  apt:
+    name: haproxy
+    state: present
+    update_cache: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Установка HAProxy (RedHat)
+  yum:
+    name: haproxy
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Развёртывание конфигурации HAProxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: '0644'
+
+- name: Проверка валидности конфигурации
+  command: haproxy -c -f /etc/haproxy/haproxy.cfg
+  register: haproxy_check
+  changed_when: false
+  failed_when: haproxy_check.rc != 0
+
+- name: Запуск HAProxy
+  service:
+    name: haproxy
+    state: restarted
+    enabled: true

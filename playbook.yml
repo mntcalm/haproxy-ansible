@@ -1,0 +1,7 @@
+- name: Установка и настройка HAProxy
+  hosts: haproxy_servers
+  become: true
+  become_user: root
+
+  roles:
+    - haproxy

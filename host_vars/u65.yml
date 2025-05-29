@@ -1,0 +1,31 @@
+haproxy_frontends:
+  - name: u65
+    address: 108.170.36.155
+    bind_port: 591
+    backend: u65b
+
+  - name: u65_l
+    address: 127.0.0.65
+    bind_port: 25
+    backend: u65b
+
+  - name: u65c_l
+    address: 127.0.0.54
+    bind_port: 25
+    backend: u54
+
+haproxy_backends:
+  - name: u65b
+    servers:
+      - { name: postfix2, address: 108.170.36.155, port: 10024, enabled: true }
+      - { name: postfix3, address: 108.170.36.156, port: 10024, enabled: true }
+      - { name: postfix4, address: 108.170.36.157, port: 10024, enabled: true }
+      - { name: postfix5, address: 108.170.36.158, port: 10024, enabled: true }
+
+  - name: u54
+    servers:
+      - { name: postfix6, address: 184.164.147.154, port: 10024, enabled: true }
+      - { name: postfix7, address: 184.164.147.155, port: 10024, enabled: true }
+      - { name: postfix8, address: 184.164.147.156, port: 10024, enabled: false }
+      - { name: postfix9, address: 184.164.147.157, port: 10024, enabled: true }
+      - { name: postfix10, address: 184.164.147.158, port: 10024, enabled: true }
